@@ -7,7 +7,7 @@ namespace importer
   {
     interface IReader
     {
-      List<List<string>> Read();
+      List<List<string>> Read(string documentPath);
     }
   }
 }

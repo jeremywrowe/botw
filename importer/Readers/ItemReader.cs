@@ -11,15 +11,16 @@ namespace importer
         public class ItemReader : IReader
         {
             readonly HtmlDocument htmlDocument;
-                
-            public ItemReader(string documentPath)
+            
+            public ItemReader()
             {
                 htmlDocument = new HtmlDocument();
-                htmlDocument.Load(Path.Join(Directory.GetCurrentDirectory(), @"data/html", documentPath));
             }
-
-            public List<List<string>> Read()
+            
+            public List<List<string>> Read(string documentPath)
             {
+                htmlDocument.Load(Path.Join(Directory.GetCurrentDirectory(), @"data/html", documentPath));
+
                 var headerContents = (from tr in HeaderDocuments() select convertRow(tr)).ToList();
                 var bodyContents = (from tr in BodyNodes() select convertRow(tr)).ToList();
 
@@ -50,10 +51,10 @@ namespace importer
                              .ToLower()
                              .Replace("&nbsp;", " ")
                              .Replace("&amp;", "&")
-                             .Replace(",", "||")
+                             .Replace(",", " %% ")
                              .Split("\n");
 
-                return String.Join("||", from section in sections select section.Trim());
+                return String.Join(" %% ", from section in sections select section.Trim());
             }
         }
     }
