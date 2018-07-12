@@ -1,6 +1,8 @@
 using HtmlAgilityPack;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.IO;
 
 namespace importer
 {
@@ -13,7 +15,7 @@ namespace importer
             public ItemReader(string documentPath)
             {
                 htmlDocument = new HtmlDocument();
-                htmlDocument.Load(documentPath);
+                htmlDocument.Load(Path.Join(Directory.GetCurrentDirectory(), @"data/html", documentPath));
             }
 
             public List<List<string>> Read()
@@ -36,7 +38,7 @@ namespace importer
 
             private List<string> convertRow(HtmlNode tr)
             {
-                var tdData = from td in tr.ChildNodes.Where(node => node.InnerText.Trim() != "")
+                var tdData = from td in tr.ChildNodes.Where(node => sanitizeColumn(node.InnerText) != "")
                              select sanitizeColumn(td.InnerText);
 
                 return tdData.ToList();
@@ -44,13 +46,14 @@ namespace importer
 
             private string sanitizeColumn(string column)
             {
-                return column.Trim()
+                var sections = column.Trim()
                              .ToLower()
                              .Replace("&nbsp;", " ")
                              .Replace("&amp;", "&")
-                             .Replace(",", " ||")
-                             .Replace(@"\r\n", " ");
-                                
+                             .Replace(",", "||")
+                             .Split("\n");
+
+                return String.Join("||", from section in sections select section.Trim());
             }
         }
     }
