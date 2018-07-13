@@ -1,15 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.8.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="data\csv\.gitkeep" />
   </ItemGroup>
@@ -76,5 +73,9 @@
     <Folder Include="data\html\recipes\" />
     <Folder Include="data\html\clothing\" />
     <Folder Include="data\html\weapons\" />
+    <Folder Include="Persistence" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\models\models.csproj" />
   </ItemGroup>
 </Project>

@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
-using importer.readers;
+using System;
 using System.Collections.Generic;
+using importer.Readers;
 
 namespace importer
 {
-    class Program
+    internal class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             var itemReader = new ItemReader();
             // CLOTHING
@@ -40,16 +39,13 @@ namespace importer
             return 0;
         }
 
-        static void Output(string label, List<List<string>> data)
+        private static void Output(string label, List<List<string>> data)
         {
-            Console.WriteLine(new String('#', 80));
-            Console.WriteLine(label.PadLeft(40 - (label.Length / 2) + 1));
-            Console.WriteLine(new String('#', 80));
+            Console.WriteLine(new string('#', 80));
+            Console.WriteLine(label.PadLeft(40 - label.Length / 2 + 1));
+            Console.WriteLine(new string('#', 80));
             Console.WriteLine();
-            foreach (var row in data)
-            {
-                Console.WriteLine(String.Join(" ^^ ", row));
-            }
+            foreach (var row in data) Console.WriteLine(string.Join(" ^^ ", row));
             Console.WriteLine();
             Console.WriteLine();
         }

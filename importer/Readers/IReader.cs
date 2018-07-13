@@ -1,13 +1,9 @@
 using System.Collections.Generic;
-using HtmlAgilityPack;
 
-namespace importer
+namespace importer.Readers
 {
-  namespace readers
-  {
-    interface IReader
+    internal interface IReader
     {
-      List<List<string>> Read(string documentPath);
+        List<List<string>> Read(string documentPath);
     }
-  }
 }

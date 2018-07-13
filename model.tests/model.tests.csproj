@@ -10,9 +10,6 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\importer\importer.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="UnitTest1.cs" />
+    <ProjectReference Include="..\models\models.csproj" />
   </ItemGroup>
 </Project>
