@@ -37,5 +37,49 @@ namespace importer.tests.Mappers
             
             Assert.Equal(model, _subject.Map(data));
         }
+
+        [Fact]
+        public void MapManyDataOnMultipleEntries()
+        {
+            var dataEntries = new List<List<string>>
+            {
+                new List<string>
+                {
+                    "zapshroom",
+                    "2",
+                    "electro",
+                    "150+ ",
+                    "hyrule ridge %%  gerudo highlands"
+                },
+                new List<string>
+                {
+                    "freezeshroom",
+                    "6",
+                    "freeze",
+                    "50+ ",
+                    "a %%  b       %% c"
+                }
+            };
+            
+            var model1 = new Item
+            {
+                Material = "zapshroom",
+                Hp = 2,
+                Type = "electro",
+                Time = 150,
+                Locations = new[] {"hyrule ridge", "gerudo highlands"}
+            };
+            
+            var model2 = new Item
+            {
+                Material = "freezeshroom",
+                Hp = 6,
+                Type = "freeze",
+                Time = 50,
+                Locations = new[] {"a", "b", "c"}
+            };
+            
+            Assert.Equal(new List<Model> { model1, model2 }, _subject.MapMany(dataEntries));
+        }
     }
 }

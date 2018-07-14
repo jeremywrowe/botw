@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using importer.Mappers;
 using importer.Readers;
+using models;
 
 namespace importer
 {
@@ -34,7 +36,7 @@ namespace importer
             Output("SWORDS", itemReader.Read("weapons/swords.html"));
 
             // ITEMS
-            Output("ITEMS", itemReader.Read("items.html"));
+            Output("ITEMS", new ItemMapper().MapMany(itemReader.Read("items.html")));
 
             return 0;
         }
@@ -46,6 +48,17 @@ namespace importer
             Console.WriteLine(new string('#', 80));
             Console.WriteLine();
             foreach (var row in data) Console.WriteLine(string.Join(" ^^ ", row));
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        private static void Output(string label, List<Model> models)
+        {
+            Console.WriteLine(new string('#', 80));
+            Console.WriteLine(label.PadLeft(40 - label.Length / 2 + 1));
+            Console.WriteLine(new string('#', 80));
+            Console.WriteLine();
+            foreach (var row in models) Console.WriteLine(row);
             Console.WriteLine();
             Console.WriteLine();
         }
