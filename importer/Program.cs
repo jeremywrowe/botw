@@ -12,9 +12,9 @@ namespace importer
         {
             var itemReader = new ItemReader();
             // CLOTHING
-            Output("BODY", itemReader.Read("clothing/body.html"));
-            Output("HEAD", itemReader.Read("clothing/head.html"));
-            Output("LEG", itemReader.Read("clothing/leg.html"));
+            Output("BODY", new ClothingMapper("body").MapMany(itemReader.Read("clothing/body.html")));
+            Output("HEAD", new ClothingMapper("head").MapMany(itemReader.Read("clothing/head.html")));
+            Output("LEG", new ClothingMapper("leg").MapMany(itemReader.Read("clothing/leg.html")));
 
             // RECIPIES
             Output("CHILL", itemReader.Read("recipes/chill.html"));

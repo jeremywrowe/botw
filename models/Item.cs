@@ -22,10 +22,8 @@ namespace models
         
         public override string ToString()
         {
-            var quotedLocations = from location in Locations select $"'{location}'";
-            var locationString = string.Join(", ", quotedLocations.ToList());
-            
-            return $"Item {{ Material = '{Material}', Hp = {Hp}, Type = '{Type}', Time = {Time}, Locations = [{locationString}] }}";
+            return $"Item {{ Material = '{Material}', Hp = {Hp}, Type = '{Type}'," + 
+                   $" Time = {Time}, Locations = {Helpers.ArrayToString(Locations)} }}";
         }
 
         public override bool Equals(object other)

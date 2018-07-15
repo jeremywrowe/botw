@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using models;
 
 namespace importer.Mappers
@@ -19,17 +17,12 @@ namespace importer.Mappers
             return new Item
             {
                 Material = data.ElementAt(0).Trim(),
-                Hp = ConvertStringToNumber(data.ElementAt(1)),
+                Hp = Helpers.ConvertStringToNumber(data.ElementAt(1)),
                 Type = data.ElementAt(2).Trim(),
-                Time = ConvertStringToNumber(data.ElementAt(3)),
-                Locations = Regex.Split(data.ElementAt(4), @"\s*%%\s*")
+                Time = Helpers.ConvertStringToNumber(data.ElementAt(3)),
+                Locations = Helpers.ConvertStringToArray(data.ElementAt(4))
             };
         }
 
-        private static int ConvertStringToNumber(string input)
-        {
-            var numberRegex = new Regex(@"\d+");
-            return numberRegex.IsMatch(input) ? Convert.ToInt32(numberRegex.Match(input).Value) : 0;
-        }
     }
 }
