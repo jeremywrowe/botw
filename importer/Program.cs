@@ -79,6 +79,7 @@ namespace importer
 
         private static void Import<T>(List<T> models, ElasticClient client) where T : class
         {
+            Console.WriteLine($"Importing {typeof(T)}");
             client.Bulk(x => x.CreateMany(models));
         }
     }
