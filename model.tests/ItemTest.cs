@@ -9,7 +9,7 @@ namespace model.tests
         [Fact]
         public void ToStringOutputsAllExpectedAttributes()
         {
-            var model = new Item()
+            var model = new Item
             {
                 Material = "Something Rad",
                 Hp = 10,

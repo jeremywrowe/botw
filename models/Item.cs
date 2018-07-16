@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace models
+﻿namespace models
 {
     public class Item : Model
     {
@@ -39,7 +36,6 @@ namespace models
                    Hp.Equals(otherItem.Hp) &&
                    Type.Equals(otherItem.Type) &&
                    Time.Equals(otherItem.Time);
-
         }
     }
 }

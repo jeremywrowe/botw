@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Net;
-
-namespace models
+﻿namespace models
 {
     public class Clothing : Model
     {

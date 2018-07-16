@@ -17,23 +17,23 @@ namespace importer
             Output("LEG", new ClothingMapper("leg").MapMany(itemReader.Read("clothing/leg.html")));
 
             // RECIPIES
-            Output("CHILL", itemReader.Read("recipes/chill.html"));
-            Output("ELECTRO", itemReader.Read("recipes/electro.html"));
+            Output("COOL DOWN", itemReader.Read("recipes/chill.html"));
+            Output("SHOCK RESISTANT", itemReader.Read("recipes/electro.html"));
             Output("ELIXIRS", itemReader.Read("recipes/elixirs.html"));
             Output("ENERGIZING", itemReader.Read("recipes/energizing.html"));
             Output("GENERAL", itemReader.Read("recipes/general.html"));
             Output("HEARTY", itemReader.Read("recipes/hearty.html"));
             Output("MIGHTY", itemReader.Read("recipes/mighty.html"));
             Output("SNEAKY", itemReader.Read("recipes/sneaky.html"));
-            Output("SPICY", itemReader.Read("recipes/spicy.html"));
-            Output("TOUGH", itemReader.Read("recipes/tough.html"));
+            Output("KEEP WARM", itemReader.Read("recipes/spicy.html"));
+            Output("DEFENSE", itemReader.Read("recipes/tough.html"));
 
             // WEAPONS
-            Output("BOWS ARROWS BOOMERANGS AND RODS", itemReader.Read("weapons/bows-arrows-boomerangs-and-rods.html"));
-            Output("CLUBS HAMMERS AND AXES", itemReader.Read("weapons/clubs-hammers-and-axes.html"));
-            Output("SHIELDS", itemReader.Read("weapons/shields.html"));
-            Output("SPEARS", itemReader.Read("weapons/spears.html"));
-            Output("SWORDS", itemReader.Read("weapons/swords.html"));
+            Output("BOWS ARROWS BOOMERANGS AND RODS", new WeaponMapper("bow").MapMany(itemReader.Read("weapons/bows-arrows-boomerangs-and-rods.html")));
+            Output("CLUBS HAMMERS AND AXES", new WeaponMapper("club").MapMany(itemReader.Read("weapons/clubs-hammers-and-axes.html")));
+            Output("SHIELDS", new WeaponMapper("shield").MapMany(itemReader.Read("weapons/shields.html")));
+            Output("SPEARS", new WeaponMapper("spear").MapMany(itemReader.Read("weapons/spears.html")));
+            Output("SWORDS", new WeaponMapper("sword").MapMany(itemReader.Read("weapons/swords.html")));
 
             // ITEMS
             Output("ITEMS", new ItemMapper().MapMany(itemReader.Read("items.html")));
