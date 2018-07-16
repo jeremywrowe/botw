@@ -16,7 +16,7 @@ namespace importer
             Output("HEAD", new ClothingMapper("head").MapMany(itemReader.Read("clothing/head.html")));
             Output("LEG", new ClothingMapper("leg").MapMany(itemReader.Read("clothing/leg.html")));
 
-            // RECIPIES
+            // RECIPES
             Output("COOL DOWN", itemReader.Read("recipes/chill.html"));
             Output("SHOCK RESISTANT", itemReader.Read("recipes/electro.html"));
             Output("ELIXIRS", itemReader.Read("recipes/elixirs.html"));
