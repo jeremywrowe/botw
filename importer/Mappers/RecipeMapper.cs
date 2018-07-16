@@ -5,7 +5,7 @@ using models;
 
 namespace importer.Mappers
 {
-    public class RecipeMapper : IMapper
+    public class RecipeMapper : IMapper<Recipe>
     {
         private readonly string _type;
 
@@ -14,12 +14,12 @@ namespace importer.Mappers
             _type = type;
         }
 
-        public List<Model> MapMany(List<List<string>> data)
+        public List<Recipe> MapMany(List<List<string>> data)
         {
             return (from item in data select Map(item)).ToList();
         }
 
-        public Model Map(List<string> data)
+        public Recipe Map(List<string> data)
         {
             return new Recipe(_type)
             {

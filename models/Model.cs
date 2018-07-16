@@ -1,8 +1,20 @@
-﻿namespace models
+﻿using System;
+
+namespace models
 {
-    public abstract class Model
+    public class Model
     {
-        public abstract override string ToString();
-        public abstract override bool Equals(object other);
+        public string Name { get; set; }
+        public int Id => Name.GetHashCode();
+
+        public override string ToString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

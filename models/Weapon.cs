@@ -6,7 +6,6 @@ namespace models
     public class Weapon : Model
     {
         public string Type { get; set; }
-        public string Name { get; set; }
         public int Parry { get; set; }
         public string[] Powers { get; set; }
         public string[] Locations { get; set; }

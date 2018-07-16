@@ -3,7 +3,6 @@
     public class Clothing : Model
     {
         public string Type;
-        public string Name;
         public int Defense;
         public string[] Ratings;
         public string[] Locations;

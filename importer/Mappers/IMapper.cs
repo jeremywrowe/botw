@@ -3,9 +3,9 @@ using models;
 
 namespace importer.Mappers
 {
-    public interface IMapper
+    public interface IMapper<T>
     {
-        List<Model> MapMany(List<List<string>> data);
-        Model Map(List<string> data);
+        List<T> MapMany(List<List<string>> data);
+        T Map(List<string> data);
     }
 }

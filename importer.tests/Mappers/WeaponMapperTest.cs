@@ -20,14 +20,14 @@ namespace importer.tests.Mappers
                 Parry = 30,
                 Powers = new []
                 {
-                    "As Weapon Durability Lowers so will the Damage of the Sword.",
-                    "(Regenerates Weapon Durability)",
+                    "As Weapon Durability Lowers so will the Damage of the Sword",
+                    "Regenerates Weapon Durability",
                     "Deals 2x Damage when Fighting Ganon"
                 },
                 Locations = new []
                 {
                     "The Korok Forest",
-                    "You Can View The Full Guide Here: How To Get The master Sword In Zelda Breath of the Wild."
+                    "You Can View The Full Guide Here: How To Get The master Sword In Zelda Breath of the Wild"
                 }
             };
             data = new List<string>

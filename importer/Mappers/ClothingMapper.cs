@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using models;
 
 namespace importer.Mappers
 {
-    public class ClothingMapper : IMapper
+    public class ClothingMapper : IMapper<Clothing>
     {
         private string _type;
 
@@ -14,13 +13,13 @@ namespace importer.Mappers
             _type = type;
         }
         
-        public List<Model> MapMany(List<List<string>> dataItems)
+        public List<Clothing> MapMany(List<List<string>> dataItems)
         {
             var mapping = from data in dataItems select Map(data);
             return mapping.ToList();
         }
 
-        public Model Map(List<string> data)
+        public Clothing Map(List<string> data)
         {
             var defenseAndRatings = Helpers.ConvertStringToArray(data.ElementAt(1));
             

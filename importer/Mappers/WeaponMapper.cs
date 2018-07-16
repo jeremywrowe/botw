@@ -4,7 +4,7 @@ using models;
 
 namespace importer.Mappers
 {
-    public class WeaponMapper : IMapper
+    public class WeaponMapper : IMapper<Weapon>
     {
         private readonly string _type;
         
@@ -13,12 +13,12 @@ namespace importer.Mappers
             _type = type;
         }
         
-        public List<Model> MapMany(List<List<string>> data)
+        public List<Weapon> MapMany(List<List<string>> data)
         {
             return (from item in data select Map(item)).ToList();
         }
 
-        public Model Map(List<string> data)
+        public Weapon Map(List<string> data)
         {
             var parryAndPowers = Helpers.ConvertStringToArray(data.ElementAt(1));
             return new Weapon(_type)

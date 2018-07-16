@@ -5,7 +5,6 @@ namespace models
     public class Recipe : Model
     {
         public string Type { get; }
-        public string Name { get; set; }
         public double Hearts { get; set; }
         public string[] Effects { get; set; }
         public string[] Ingredients { get; set; }

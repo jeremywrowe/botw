@@ -28,7 +28,7 @@ namespace importer.tests.Mappers
             
             var model = new Item
             {
-                Material = "zapshroom",
+                Name = "zapshroom",
                 Hp = 2,
                 Type = "electro",
                 Time = 150,
@@ -63,7 +63,7 @@ namespace importer.tests.Mappers
             
             var model1 = new Item
             {
-                Material = "zapshroom",
+                Name = "zapshroom",
                 Hp = 2,
                 Type = "electro",
                 Time = 150,
@@ -72,7 +72,7 @@ namespace importer.tests.Mappers
             
             var model2 = new Item
             {
-                Material = "freezeshroom",
+                Name = "freezeshroom",
                 Hp = 6,
                 Type = "freeze",
                 Time = 50,
