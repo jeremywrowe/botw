@@ -27,8 +27,8 @@ namespace importer.Mappers
             return new Clothing
             {
                 Type = _type,
-                Name = data.ElementAt(0),
-                Defense = Convert.ToInt32(defenseAndRatings.ElementAt(0).Trim()),
+                Name = Helpers.NormalizeString(data.ElementAt(0)),
+                Defense = Helpers.ConvertStringToNumber(defenseAndRatings.ElementAt(0).Trim()),
                 Ratings = defenseAndRatings.Skip(1).Take(defenseAndRatings.Length - 1).ToArray(),
                 Locations = Helpers.ConvertStringToArray(data.ElementAt(2))
             };

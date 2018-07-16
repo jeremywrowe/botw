@@ -4,13 +4,15 @@ namespace models
 {
     public class Recipe : Model
     {
+        public string Type { get; }
         public string Name { get; set; }
         public double Hearts { get; set; }
         public string[] Effects { get; set; }
         public string[] Ingredients { get; set; }
 
-        public Recipe()
+        public Recipe(string type)
         {
+            Type = type;
             Effects = new string[] { };
             Ingredients = new string[] { };
         }
@@ -19,7 +21,7 @@ namespace models
         {
             var hearts = Hearts == 0.0 ? "none" : Hearts.ToString();
             
-            return $"Recipe {{ Name = '{Name}', Hearts = {hearts}, " +
+            return $"Recipe {{ Type = '{Type}', Name = '{Name}', Hearts = {hearts}, " +
                    $"Effects = {Helpers.ArrayToString(Effects)}, Ingredients = {Helpers.ArrayToString(Ingredients)} }}";
         }
 
@@ -31,7 +33,8 @@ namespace models
             }
 
             var otherRecipe = (Recipe) other;
-            return Name.Equals(otherRecipe.Name) &&
+            return Type.Equals(otherRecipe.Type) &&
+                   Name.Equals(otherRecipe.Name) &&
                    Hearts.Equals(otherRecipe.Hearts) &&
                    Effects.OrderBy(e => e).SequenceEqual(otherRecipe.Effects.OrderBy(e => e)) &&
                    Ingredients.OrderBy(i => i).SequenceEqual(otherRecipe.Ingredients.OrderBy(i => i));

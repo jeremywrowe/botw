@@ -23,7 +23,7 @@ namespace importer.Mappers
             var parryAndPowers = Helpers.ConvertStringToArray(data.ElementAt(1));
             return new Weapon(_type)
             {
-                Name = data.ElementAt(0).Trim(),
+                Name = Helpers.NormalizeString(data.ElementAt(0)),
                 Parry = Helpers.ConvertStringToNumber(parryAndPowers.ElementAt(0)),
                 Powers = parryAndPowers.Skip(1).ToArray(),
                 Locations = Helpers.ConvertStringToArray(data.ElementAt(2))

@@ -18,7 +18,7 @@ namespace importer.tests.Readers
         public void ParsingADocumentOmitsTheHeaderRow()
         {
             var nodes = _subject.Read("items.html");
-            var header = new List<string>()
+            var header = new List<string>
             {
                 "zelda breath of the wild materials",
                 "hp",
@@ -34,7 +34,7 @@ namespace importer.tests.Readers
         public void ParsingADocumentGeneratesAValidRow()
         {
             var nodes = _subject.Read("items.html");
-            var expected = new List<string>()
+            var expected = new List<string>
             {
                 "ancient screw",
                 "–",

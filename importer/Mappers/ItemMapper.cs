@@ -16,9 +16,9 @@ namespace importer.Mappers
         {
             return new Item
             {
-                Material = data.ElementAt(0).Trim(),
+                Material = Helpers.NormalizeString(data.ElementAt(0)),
                 Hp = Helpers.ConvertStringToNumber(data.ElementAt(1)),
-                Type = data.ElementAt(2).Trim(),
+                Type = Helpers.NormalizeString(data.ElementAt(2)),
                 Time = Helpers.ConvertStringToNumber(data.ElementAt(3)),
                 Locations = Helpers.ConvertStringToArray(data.ElementAt(4))
             };
