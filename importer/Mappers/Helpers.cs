@@ -13,7 +13,15 @@ namespace importer.Mappers
                 return "";
             }
 
-            return input.Trim().Replace("(", "").Replace(")", "");
+            return input
+                .Trim()
+                .Replace("&lt;&gt;", " 💎")
+                .Replace("’", "'")
+                .Replace(".", "")
+                .Replace("(", "")
+                .Replace(")", "")
+                .Replace("“", "\"")
+                .Replace("”", "\"");
         }
         
         public static int ConvertStringToNumber(string input)
@@ -34,7 +42,7 @@ namespace importer.Mappers
                 return new string[] {};
             }
             
-            return (from element in Regex.Split(input, @"\s*%%\s*") select element.Trim()).ToArray();
+            return (from element in Regex.Split(input, @"\s*%%\s*") select NormalizeString(element)).ToArray();
         }
     }
 }
