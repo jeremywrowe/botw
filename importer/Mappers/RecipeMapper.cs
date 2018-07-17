@@ -21,11 +21,14 @@ namespace importer.Mappers
 
         public Recipe Map(List<string> data)
         {
+            var effects = from effect in Helpers.ConvertStringToArray(data.ElementAt(2))
+                select EffectMapping(effect);
+            
             return new Recipe(_type)
             {
                 Name = Helpers.NormalizeString(data.ElementAt(0)),
                 Hearts = MapHearts(data.ElementAt(1)),
-                Effects = Helpers.ConvertStringToArray(data.ElementAt(2)),
+                Effects = effects.ToArray(),
                 Ingredients = Helpers.ConvertStringToArray(data.ElementAt(3))
             };
         }
@@ -42,6 +45,17 @@ namespace importer.Mappers
         private double HeartMapping(string input, string pattern, double value)
         {
             return new Regex(pattern).Matches(input).Count * value;
+        }
+
+        private string EffectMapping(string effect)
+        {
+            return effect
+                .Replace("increases ", "")
+                .Replace("recovers ", "")
+                .Replace("extra ", "")
+                .Replace("restores full", "full")
+                .Replace("defense boost duration", "defense")
+                .Replace("defense boost", "defense");
         }
     }
 }

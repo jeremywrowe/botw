@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "models", "models\models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model.tests", "model.tests\model.tests.csproj", "{B0F97AC9-EAA9-4A60-832D-0CF14D4CD796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frontend", "frontend\frontend.csproj", "{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{B0F97AC9-EAA9-4A60-832D-0CF14D4CD796}.Release|x64.Build.0 = Release|Any CPU
 		{B0F97AC9-EAA9-4A60-832D-0CF14D4CD796}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0F97AC9-EAA9-4A60-832D-0CF14D4CD796}.Release|x86.Build.0 = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|x64.Build.0 = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Debug|x86.Build.0 = Debug|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|x64.Build.0 = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|x86.ActiveCfg = Release|Any CPU
+		{8BA1D4BA-B07E-4845-BF6F-3A15D6148FBD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
