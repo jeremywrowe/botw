@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Glyphicon, Label } from 'react-bootstrap';
+import Loader from './Loader';
 
 export class Recipes extends Component {
   displayName = Recipes.name
@@ -58,7 +59,7 @@ export class Recipes extends Component {
 
   static renderRecipes(recipes) {
     return (
-      <table className='table table-striped table-responsive-lg'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Name</th>
@@ -71,11 +72,11 @@ export class Recipes extends Component {
         <tbody>
           {recipes.map(recipe => (
             <tr key={recipe.name}>
-              <td>{recipe.name}</td>
-              <td>{recipe.type}</td>
-              <td>{this.renderHearts(recipe.hearts)}</td>
-              <td>{this.renderIngredients(recipe.ingredients)}</td>
-              <td>{this.renderIngredients(recipe.effects)}</td>
+              <td data-title="Name">{recipe.name}</td>
+              <td data-title="Type">{recipe.type}</td>
+              <td data-title="Hearts">{this.renderHearts(recipe.hearts)}</td>
+              <td data-title="Ingerdients">{this.renderIngredients(recipe.ingredients)}</td>
+              <td data-title="Effects">{this.renderIngredients(recipe.effects)}</td>
             </tr>
           ))}
         </tbody>
@@ -85,7 +86,7 @@ export class Recipes extends Component {
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <Loader />
       : Recipes.renderRecipes(this.state.recipes);
 
     return (

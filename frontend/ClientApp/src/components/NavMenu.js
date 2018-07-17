@@ -2,18 +2,14 @@
 import { Link } from 'react-router-dom';
 import { Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import './NavMenu.css';
 
 export class NavMenu extends Component {
   displayName = NavMenu.name
 
   render() {
     return (
-      <Navbar inverse fixedTop fluid collapseOnSelect>
+      <Navbar inverse fixedTop collapseOnSelect>
         <Navbar.Header>
-          <Navbar.Brand>
-            <Link to={'/items'}>Breath of the Wild</Link>
-          </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -25,7 +21,7 @@ export class NavMenu extends Component {
             </LinkContainer>
             <LinkContainer to={'/clothing'}>
               <NavItem>
-                <Glyphicon glyph='user' /> Clothing
+                <Glyphicon glyph='sunglasses' /> Clothing
               </NavItem>
             </LinkContainer>
             <LinkContainer to={'/recipes'}>

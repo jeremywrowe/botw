@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 import { Layout } from './components/Layout';
 import { Items } from './components/Items';
 import { Clothing } from './components/Clothing';
@@ -16,6 +16,7 @@ export default class App extends Component {
         <Route path='/clothing' component={Clothing} />
         <Route path='/recipes' component={Recipes} />
         <Route path='/weapons' component={Weapons} />
+        <Route exact path='/' render={() => <Redirect to='/items' />} />
       </Layout>
     );
   }

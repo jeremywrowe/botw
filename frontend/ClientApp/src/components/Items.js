@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Label } from 'react-bootstrap';
+import Loader from './Loader';
 
 export class Items extends Component {
   displayName = Items.name
@@ -42,7 +43,7 @@ export class Items extends Component {
 
   static renderItems(items) {
     return (
-      <table className='table'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Name</th>
@@ -55,11 +56,11 @@ export class Items extends Component {
         <tbody>
           {items.map(item => (
             <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{this.renderType(item.type)}</td>
-              <td>{item.hp}</td>
-              <td>{item.time}</td>
-              <td>{this.renderLocations(item.locations)}</td>
+              <td data-title="Name">{item.name}</td>
+              <td data-title="Type">{this.renderType(item.type)}</td>
+              <td data-title="HP">{item.hp}</td>
+              <td data-title="Time">{item.time}</td>
+              <td data-title="Locations">{this.renderLocations(item.locations)}</td>
             </tr>
           ))}
         </tbody>
@@ -69,7 +70,7 @@ export class Items extends Component {
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <Loader />
       : Items.renderItems(this.state.items);
 
     return (

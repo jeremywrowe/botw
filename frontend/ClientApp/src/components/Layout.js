@@ -7,16 +7,14 @@ export class Layout extends Component {
 
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col sm={3}>
-            <NavMenu />
-          </Col>
-          <Col sm={9}>
-            {this.props.children}
-          </Col>
-        </Row>
-      </Grid>
+      <React.Fragment>
+        <div>
+          <NavMenu />
+        </div>
+        <div className="container">
+          {this.props.children}
+        </div>
+      </React.Fragment>
     );
   }
 }

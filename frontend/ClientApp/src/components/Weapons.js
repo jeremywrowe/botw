@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Label } from 'react-bootstrap';
+import Loader from './Loader';
 
 export class Weapons extends Component {
   displayName = Weapons.name
@@ -38,7 +39,7 @@ export class Weapons extends Component {
 
   static renderWeapons(weapons) {
     return (
-      <table className='table'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Name</th>
@@ -51,11 +52,11 @@ export class Weapons extends Component {
         <tbody>
           {weapons.map(weapon => (
             <tr key={weapon.id}>
-              <td>{weapon.name}</td>
-              <td>{this.renderType(weapon.type)}</td>
-              <td>{weapon.parry}</td>
-              <td>{this.renderTags(weapon.powers)}</td>
-              <td>{this.renderTags(weapon.locations)}</td>
+              <td data-title="Name">{weapon.name}</td>
+              <td data-title="Type">{this.renderType(weapon.type)}</td>
+              <td data-title="Parry">{weapon.parry}</td>
+              <td data-title="Powers">{this.renderTags(weapon.powers)}</td>
+              <td data-title="Locations">{this.renderTags(weapon.locations)}</td>
             </tr>
           ))}
         </tbody>
@@ -65,7 +66,7 @@ export class Weapons extends Component {
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <Loader />
       : Weapons.renderWeapons(this.state.weapons);
 
     return (

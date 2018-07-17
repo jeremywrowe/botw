@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Label } from 'react-bootstrap';
+import Loader from './Loader';
 
 export class Clothing extends Component {
   displayName = Clothing.name
@@ -56,7 +57,7 @@ export class Clothing extends Component {
 
   static renderClothing(clothing) {
     return (
-      <table className='table'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Name</th>
@@ -69,11 +70,11 @@ export class Clothing extends Component {
         <tbody>
           {clothing.map(item => (
             <tr key={item.name}>
-              <td>{item.name}</td>
-              <td>{this.renderType(item.type)}</td>
-              <td>{item.defense}</td>
-              <td>{this.renderRatings(item.ratings)}</td>
-              <td>{this.renderLocations(item.locations)}</td>
+              <td data-title="Name">{item.name}</td>
+              <td data-title="Type">{this.renderType(item.type)}</td>
+              <td data-title="Defense">{item.defense}</td>
+              <td data-title="Ratings">{this.renderRatings(item.ratings)}</td>
+              <td data-title="Locations">{this.renderLocations(item.locations)}</td>
             </tr>
           ))}
         </tbody>
@@ -83,7 +84,7 @@ export class Clothing extends Component {
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
+      ? <Loader />
       : Clothing.renderClothing(this.state.clothing);
 
     return (
