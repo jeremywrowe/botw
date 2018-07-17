@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using importer.Mappers;
 using importer.Readers;
 using models;
@@ -45,21 +46,17 @@ namespace importer
             Output(weapons);
             Output(items);
             
-            var node = new Uri("http://localhost:9200");
-            var settings = new ConnectionSettings(node)
-                .DefaultTypeName("_doc")
-                .DefaultMappingFor<Clothing>(m => m.IndexName("clothing"))
-                .DefaultMappingFor<Item>(m => m.IndexName("items"))
-                .DefaultMappingFor<Recipe>(m => m.IndexName("recipes"))
-                .DefaultMappingFor<Weapon>(m => m.IndexName("weapons"));
-            var client = new ElasticClient(settings);
-
+            var client = new Connection().Client;
             
             Console.WriteLine("STARTING IMPORT");
-            Import(clothing, client);
-            Import(recipes, client);
-            Import(weapons, client);
-            Import(items, client);
+            var tasks = new Task[]
+            {
+                Import(clothing, client),
+                Import(recipes, client),
+                Import(weapons, client),
+                Import(items, client)
+            };
+            Task.WaitAll(tasks);
             Console.WriteLine("FINISHED IMPORT");
 
             return 0;
@@ -77,10 +74,10 @@ namespace importer
             existing.AddRange(additions);
         }
 
-        private static void Import<T>(List<T> models, ElasticClient client) where T : class
+        private static Task<IBulkResponse> Import<T>(List<T> models, ElasticClient client) where T : class
         {
             Console.WriteLine($"Importing {typeof(T)}");
-            client.Bulk(x => x.CreateMany(models));
+            return client.BulkAsync(x => x.CreateMany(models));
         }
     }
 }
