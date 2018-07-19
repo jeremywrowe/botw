@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Glyphicon, Label } from 'react-bootstrap';
+import { Button, Glyphicon, Label } from 'react-bootstrap';
 import Loader from './Loader';
 
 export class Recipes extends Component {
@@ -7,42 +7,76 @@ export class Recipes extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { recipes: [], loading: true };
+    this.state = { recipes: [], loading: true, ingredients: [], types: [] };
+    this.loadData();
+  }
 
-    fetch('api/recipes?ingredients=apple&types=generic,defense')
+  loadData = () => {
+    fetch(`api/recipes?ingredients=${this.state.ingredients.join(',')}&types=${this.state.types.join(',')}`)
       .then(response => response.json())
       .then(data => {
         this.setState({ recipes: data, loading: false });
       });
   }
 
-  static renderType(type) {
-    if (!type || type === '?') {
-      return '';
-    }
-
-    let style = 'default';
-    style = type === 'sneaky' ? 'success' : style;
-    style = type === 'chilly' ? 'info' : style;
-    style = type === 'electro' ? 'warning' : style;
-    style = type === 'spicy' ? 'danger' : style;
-
-    return <Label bsStyle={style}>{type}</Label>;
+  addIngredient = (ingredient) => {
+    this.setState({ ingredients: [...this.state.ingredients, ingredient], loading: true }, this.loadData);
   }
 
-  static renderIngredients(ingredients) {
+  removeIngredient = (ingredient) => {
+    const { ingredients } = this.state;
+    const index = ingredients.indexOf(ingredient);
+    this.setState({ ingredients: [...ingredients.slice(0, index), ...ingredients.slice(index + 1)], loading: true }, this.loadData);
+  }
+
+  renderIngredients = (ingredients, selected) => {
     return (
       ingredients.map(ingredient => (
         <React.Fragment key={ingredient}>
-          <Label bsStyle="default">{ingredient}</Label>
+          <Button
+            bsSize="xsmall"
+            bsStyle={selected.indexOf(ingredient) >= 0 ? 'success' : 'default'}
+            onClick={() => this.addIngredient(ingredient)}
+          >
+            {ingredient}
+          </Button>
           {' '}
         </React.Fragment>
       ))
     );
   }
 
-  static renderHearts(hearts)
-  {
+  toggleType = (type) => {
+    if (this.state.types.indexOf(type) >= 0) {
+      this.removeType(type);
+    } else {
+      this.addType(type);
+    }
+  }
+
+  addType = (type) => {
+    this.setState({ types: [...this.state.types, type], loading: true }, this.loadData);
+  }
+
+  removeType = (type) => {
+    const { types } = this.state;
+    const index = types.indexOf(type);
+    this.setState({ types: [...types.slice(0, index), ...types.slice(index + 1)], loading: true }, this.loadData);
+  }
+
+  renderType = (type, selected) => {
+    return (
+      <Button
+        bsSize="xsmall"
+        bsStyle={selected.indexOf(type) >= 0 ? 'success' : 'default'}
+        onClick={() => this.toggleType(type)}
+      >
+        {type}
+      </Button>
+    );
+  }
+
+  renderHearts = (hearts) => {
     return (
       <React.Fragment>
         <Glyphicon glyph={hearts > 0 ? 'heart' : 'heart-empty'} />
@@ -57,37 +91,75 @@ export class Recipes extends Component {
     )
   }
 
-  static renderRecipes(recipes) {
+  renderRecipes = (recipes, types, ingredients) => {
     return (
-      <table className='table table-striped'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Hearts</th>
-            <th>Ingredients</th>
-            <th>Effects</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recipes.map(recipe => (
-            <tr key={recipe.name}>
-              <td data-title="Name">{recipe.name}</td>
-              <td data-title="Type">{recipe.type}</td>
-              <td data-title="Hearts">{this.renderHearts(recipe.hearts)}</td>
-              <td data-title="Ingerdients">{this.renderIngredients(recipe.ingredients)}</td>
-              <td data-title="Effects">{this.renderIngredients(recipe.effects)}</td>
+      <React.Fragment>
+        <div>
+          <h4>Filters:</h4>
+          <table className='table'>
+            <tbody>
+              <tr>
+                <td>Types</td>
+                <td>
+                  {['generic', 'chill', 'elixir', 'shock', 'energy', 'hearty', 'mighty', 'sneak', 'warmth', 'defense'].map(type => (
+                    <React.Fragment key={type}>
+                      <Button bsStyle={ types.indexOf(type) >= 0 ? 'danger' : 'success' } bsSize="xsmall" onClick={() => this.toggleType(type)}>
+                        {type}{ ' ' }
+                        <Glyphicon glyph="remove-sign" />
+                      </Button>
+                      {' '}
+                    </React.Fragment>
+                  ))}
+                </td>
+              </tr>
+              <tr>
+                <td>Ingredients</td>
+                <td>
+                  {ingredients.map(ingredient => (
+                    <React.Fragment key={ingredient}>
+                      <Button bsStyle="success" bsSize="xsmall" onClick={() => this.removeIngredient(ingredient)}>
+                        {ingredient}{ ' ' }
+                        <Glyphicon glyph="remove-sign" />
+                      </Button>
+                      {' '}
+                    </React.Fragment>
+                  ))}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <table className='table table-striped'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Hearts</th>
+              <th>Ingredients</th>
+              <th>Effects</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {recipes.map(recipe => (
+              <tr key={recipe.name}>
+                <td data-title="Name">{recipe.name}</td>
+                <td data-title="Type">{this.renderType(recipe.type, types)}</td>
+                <td data-title="Hearts">{this.renderHearts(recipe.hearts)}</td>
+                <td data-title="Ingerdients">{this.renderIngredients(recipe.ingredients, ingredients)}</td>
+                <td data-title="Effects">{this.renderIngredients(recipe.effects, [])}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </React.Fragment>
     );
   }
 
   render() {
+    const { types, ingredients, recipes } = this.state;
     let contents = this.state.loading
       ? <Loader />
-      : Recipes.renderRecipes(this.state.recipes);
+      : this.renderRecipes(recipes, types, ingredients);
 
     return (
       <div>
