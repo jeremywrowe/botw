@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Text;
 using Nest;
 
 namespace models
@@ -16,6 +18,7 @@ namespace models
                 .DefaultMappingFor<Item>(m => m.IndexName("items"))
                 .DefaultMappingFor<Recipe>(m => m.IndexName("recipes"))
                 .DefaultMappingFor<Weapon>(m => m.IndexName("weapons"));
+
             Client = new ElasticClient(settings);
         }
         

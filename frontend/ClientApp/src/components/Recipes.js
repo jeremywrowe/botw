@@ -9,7 +9,7 @@ export class Recipes extends Component {
     super(props);
     this.state = { recipes: [], loading: true };
 
-    fetch('api/recipes')
+    fetch('api/recipes?types=elixir')
       .then(response => response.json())
       .then(data => {
         this.setState({ recipes: data, loading: false });
