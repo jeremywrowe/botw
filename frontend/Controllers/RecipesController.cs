@@ -47,10 +47,13 @@ namespace frontend.Controllers
                         
                         if (!String.IsNullOrWhiteSpace(types))
                         {
+                            QueryContainer typeContainer = null;
                             foreach (var val in types.Split(","))
                             {
-                                container &= bm.Term(t => t.Field("type.keyword").Value(val));
+                                typeContainer |= bm.Term(t => t.Field("type.keyword").Value(val));
                             }
+
+                            container &= typeContainer;
                         }
 
                         return container;
