@@ -6,6 +6,8 @@ A silly little ASP.net core &amp; elasticsearch app to help with recipes and ite
 This is just a little playground, and not really code I would write for a production application. Testing / good commit messages
 are lacking.
 
+![BOTW](screenshot.png?raw=true "BOTW")
+
 ### To run:
 
 * clone the repo
