@@ -9,6 +9,7 @@ are lacking.
 ### To run:
 
 * clone the repo
+* `cd botw && dotnet restore`
 * docker-compose up (wait for elasticsearch)
 * open another shell
 * `cd importer && dotent run && cd -`
