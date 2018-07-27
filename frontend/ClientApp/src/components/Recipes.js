@@ -1,78 +1,143 @@
 import React, { Component } from 'react';
-import { Button, Glyphicon, Label } from 'react-bootstrap';
+import { Glyphicon, Label } from 'react-bootstrap';
 import Loader from './Loader';
+import Switch from './Switch';
+import * as qs from 'query-string';
+
+const EFFECTS = [
+  'attack',
+  'cold',
+  'defense',
+  'electric',
+  'fireproof',
+  'heat',
+  'speed',
+  'stamina',
+  'stealth',
+  'temporary ❤'
+];
+
+const mapEffect = (effect) => {
+  const found = EFFECTS.find(mappedEffect => effect.indexOf(mappedEffect) >= 0);
+  return found ? found : null;
+}
 
 export class Recipes extends Component {
   displayName = Recipes.name
 
   constructor(props) {
     super(props);
-    this.state = { recipes: [], loading: true, ingredients: [], types: [] };
+    this.state = { recipes: props.recipes || [], loading: !props.recipes, ingredients: [], types: [], effects: [], nested: !props.recipes };
+    const query = qs.parse(window.location.search);
+
+    if (props.recipes) {
+      return;
+    }
+
+    if (query.ingredients) {
+      this.state.ingredients = query.ingredients.split(',');
+    }
+
+    if (query.types) {
+      this.state.types = query.types.split(',');
+    }
+
+    if (query.effects) {
+      this.state.effects = query.effects.split(',');
+    }
+
     this.loadData();
   }
 
+  componentDidMount = () => window.addEventListener('popstate', this.popState);
+
+  componentWillUnmount = () => window.removeEventListener('popstate', this.popState);
+
+  popState = (event) => {
+    this.setState(event.state, this.loadData);
+  }
+
+  buildFilterUrl = () => {
+    const queryParams = [];
+
+    if (this.state.ingredients.length > 0) {
+      queryParams.push(`ingredients=${this.state.ingredients.join(',')}`);
+    }
+
+    if (this.state.types.length > 0) {
+      queryParams.push(`types=${this.state.types.join(',')}`);
+    }
+
+    if (this.state.effects.length > 0) {
+      queryParams.push(`effects=${this.state.effects.join(',')}`);
+    }
+
+    return queryParams.length > 0 ? `recipes?${queryParams.join('&')}` : 'recipes';
+  }
+
   loadData = () => {
-    fetch(`api/recipes?ingredients=${this.state.ingredients.join(',')}&types=${this.state.types.join(',')}`)
+    const filterUrl = this.buildFilterUrl();
+    window.history.pushState(this.state, 'Recipe with filters', filterUrl);
+    fetch(`api/${filterUrl}`)
       .then(response => response.json())
       .then(data => {
         this.setState({ recipes: data, loading: false });
       });
   }
 
-  addIngredient = (ingredient) => {
-    this.setState({ ingredients: [...this.state.ingredients, ingredient], loading: true }, this.loadData);
+  addFilter = (key, item) => {
+    this.setState({ [key]: [...this.state[key], item], loading: true }, this.loadData);
   }
 
-  removeIngredient = (ingredient) => {
-    const { ingredients } = this.state;
-    const index = ingredients.indexOf(ingredient);
-    this.setState({ ingredients: [...ingredients.slice(0, index), ...ingredients.slice(index + 1)], loading: true }, this.loadData);
+  removeFilter = (key, item) => {
+    const items = this.state[key];
+    const index = items.indexOf(item);
+    this.setState({ [key]: [...items.slice(0, index), ...items.slice(index + 1)], loading: true }, this.loadData);
+  }
+
+  toggleFilter = (key, item) => {
+    if (!this.state.nested) {
+      return false;
+    }
+
+    if (this.state[key].indexOf(item) >= 0) {
+      this.removeFilter(key, item);
+    } else {
+      this.addFilter(key, item);
+    }
   }
 
   renderIngredients = (ingredients, selected) => {
     return (
       ingredients.map(ingredient => (
         <React.Fragment key={ingredient}>
-          <Button
-            bsSize="xsmall"
-            bsStyle={selected.indexOf(ingredient) >= 0 ? 'success' : 'default'}
-            onClick={() => this.addIngredient(ingredient)}
-          >
-            {ingredient}
-          </Button>
+          <Switch label={ingredient} onClick={() => this.toggleFilter('ingredients', ingredient)} selected={selected.indexOf(ingredient) >= 0} />
           {' '}
         </React.Fragment>
       ))
     );
   }
 
-  toggleType = (type) => {
-    if (this.state.types.indexOf(type) >= 0) {
-      this.removeType(type);
-    } else {
-      this.addType(type);
-    }
-  }
-
-  addType = (type) => {
-    this.setState({ types: [...this.state.types, type], loading: true }, this.loadData);
-  }
-
-  removeType = (type) => {
-    const { types } = this.state;
-    const index = types.indexOf(type);
-    this.setState({ types: [...types.slice(0, index), ...types.slice(index + 1)], loading: true }, this.loadData);
+  renderEffects = (effects, selected) => {
+    return (
+      effects.map(effect => {
+        const mappedEffect = mapEffect(effect);
+        return (
+          <React.Fragment key={mappedEffect}>
+            {mappedEffect
+              ? <Switch label={mappedEffect} onClick={() => this.toggleFilter('effects', mappedEffect)} selected={selected.indexOf(mappedEffect) >= 0} /> 
+              : <Label>{effect}</Label>
+            }
+            {' '}
+          </React.Fragment>
+        )
+      })
+    );
   }
 
   renderType = (type, selected) => {
     return (
-      <Button
-        bsSize="xsmall"
-        bsStyle={selected.indexOf(type) >= 0 ? 'success' : 'default'}
-        onClick={() => this.toggleType(type)}
-      >
-        {type}
-      </Button>
+      <Switch label={type} onClick={() => this.toggleFilter('types', type)} selected={selected.indexOf(type) >= 0} />
     );
   }
 
@@ -91,44 +156,54 @@ export class Recipes extends Component {
     )
   }
 
-  renderRecipes = (recipes, types, ingredients) => {
+  renderFilters = (types, ingredients, effects) => (
+    <div>
+      <h4>Filters:</h4>
+      <table className='table'>
+        <tbody>
+          <tr>
+            <td>Types</td>
+            <td>
+              {['generic', 'chill', 'elixir', 'shock', 'energy', 'hearty', 'mighty', 'sneak', 'warmth', 'defense'].sort().map((type) => (
+                <React.Fragment key={type}>
+                  <Switch selected={types.indexOf(type) >= 0} label={type} onClick={() => this.toggleFilter('types', type)} />
+                  &nbsp;
+                </React.Fragment>
+              ))}
+            </td>
+          </tr>
+          <tr>
+            <td>Ingredients</td>
+            <td>
+              {ingredients.map(ingredient => (
+                <React.Fragment key={ingredient}>
+                  <Switch label={ingredient} onClick={() => this.toggleFilter('ingredients', ingredient)} selected={true} />
+                  {' '}
+                </React.Fragment>
+              ))}
+              {ingredients.length === 0 ? 'None selected' : null}
+            </td>
+          </tr>
+          <tr>
+            <td>Effects</td>
+            <td>
+              {EFFECTS.map(effect => (
+                <React.Fragment key={effect}>
+                  <Switch label={effect} onClick={() => this.toggleFilter('effects', effect)} selected={effects.indexOf(effect) >= 0} />
+                  {' '}
+                </React.Fragment>
+              ))}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  )
+
+  renderRecipes = (recipes, types, ingredients, effects) => {
     return (
       <React.Fragment>
-        <div>
-          <h4>Filters:</h4>
-          <table className='table'>
-            <tbody>
-              <tr>
-                <td>Types</td>
-                <td>
-                  {['generic', 'chill', 'elixir', 'shock', 'energy', 'hearty', 'mighty', 'sneak', 'warmth', 'defense'].map(type => (
-                    <React.Fragment key={type}>
-                      <Button bsStyle={ types.indexOf(type) >= 0 ? 'danger' : 'success' } bsSize="xsmall" onClick={() => this.toggleType(type)}>
-                        {type}{ ' ' }
-                        <Glyphicon glyph="remove-sign" />
-                      </Button>
-                      {' '}
-                    </React.Fragment>
-                  ))}
-                </td>
-              </tr>
-              <tr>
-                <td>Ingredients</td>
-                <td>
-                  {ingredients.map(ingredient => (
-                    <React.Fragment key={ingredient}>
-                      <Button bsStyle="success" bsSize="xsmall" onClick={() => this.removeIngredient(ingredient)}>
-                        {ingredient}{ ' ' }
-                        <Glyphicon glyph="remove-sign" />
-                      </Button>
-                      {' '}
-                    </React.Fragment>
-                  ))}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {this.state.renderFilters && this.renderFilters(types, ingredients, effects)}
         <table className='table table-striped'>
           <thead>
             <tr>
@@ -142,11 +217,11 @@ export class Recipes extends Component {
           <tbody>
             {recipes.map(recipe => (
               <tr key={recipe.name}>
-                <td data-title="Name">{recipe.name}</td>
+                <td className="fit" data-title="Name">{recipe.name}</td>
                 <td data-title="Type">{this.renderType(recipe.type, types)}</td>
-                <td data-title="Hearts">{this.renderHearts(recipe.hearts)}</td>
+                <td className="fit" data-title="Hearts">{this.renderHearts(recipe.hearts)}</td>
                 <td data-title="Ingerdients">{this.renderIngredients(recipe.ingredients, ingredients)}</td>
-                <td data-title="Effects">{this.renderIngredients(recipe.effects, [])}</td>
+                <td data-title="Effects">{this.renderEffects(recipe.effects, effects)}</td>
               </tr>
             ))}
           </tbody>
@@ -156,14 +231,14 @@ export class Recipes extends Component {
   }
 
   render() {
-    const { types, ingredients, recipes } = this.state;
+    const { types, ingredients, recipes, effects } = this.state;
     let contents = this.state.loading
       ? <Loader />
-      : this.renderRecipes(recipes, types, ingredients);
+      : this.renderRecipes(recipes, types, ingredients, effects);
 
     return (
       <div>
-        <h1>Recipes</h1>
+        {this.state.nested && <h1>Recipes</h1>}
         {contents}
       </div>
     );

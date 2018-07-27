@@ -17,7 +17,6 @@ namespace importer
             var clothing = new List<Clothing>();
             var recipes = new List<Recipe>();
             var weapons = new List<Weapon>();
-            var items = new ItemMapper().MapMany(itemReader.Read("items.html"));
             
             Add(clothing, new ClothingMapper("body").MapMany(itemReader.Read("clothing/body.html")));
             Add(clothing, new ClothingMapper("head").MapMany(itemReader.Read("clothing/head.html")));
@@ -40,6 +39,7 @@ namespace importer
             Add(weapons, new WeaponMapper("spear").MapMany(itemReader.Read("weapons/spears.html")));
             Add(weapons, new WeaponMapper("sword").MapMany(itemReader.Read("weapons/swords.html")));
 
+            var items = new ItemMapper().MapMany(itemReader.Read("items.html"), new List<Model>(recipes));
             
             Output(clothing);
             Output(recipes);

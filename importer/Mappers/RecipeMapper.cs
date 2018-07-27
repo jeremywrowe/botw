@@ -14,12 +14,12 @@ namespace importer.Mappers
             _type = type;
         }
 
-        public List<Recipe> MapMany(List<List<string>> data)
+        public List<Recipe> MapMany(List<List<string>> data, List<Model> _associations = null)
         {
-            return (from item in data select Map(item)).ToList();
+            return (from item in data select Map(item, _associations)).ToList();
         }
 
-        public Recipe Map(List<string> data)
+        public Recipe Map(List<string> data, List<Model> _associations = null)
         {
             var effects = from effect in Helpers.ConvertStringToArray(data.ElementAt(2))
                 select EffectMapping(effect);

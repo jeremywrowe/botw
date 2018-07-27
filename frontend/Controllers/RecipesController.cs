@@ -10,7 +10,7 @@ namespace frontend.Controllers
     public class RecipesController : Controller
     {
         [HttpGet]
-        public IEnumerable<Recipe> Index(string ingredients, string effects, string types)
+        public IEnumerable<Model> Index(string ingredients, string effects, string types)
         {
             var connection = new Connection();
             return connection.Client.Search<Recipe>(search => Filter(search, ingredients, effects, types)).Documents;
@@ -21,7 +21,7 @@ namespace frontend.Controllers
             var updatedSearch = search
                 .From(0)
                 .Size(1000)
-                .Sort(i => i.Ascending("name.keyword").Ascending("type.keyword"));
+                .Sort(i => i.Descending("hearts").Ascending("type.keyword").Ascending("name.keyword"));
 
             return updatedSearch.Query(query => query
                 .Bool(b => b
@@ -39,10 +39,13 @@ namespace frontend.Controllers
                         
                         if (!String.IsNullOrWhiteSpace(effects))
                         {
+                            QueryContainer effectContainer = null;
                             foreach (var val in effects.Split(","))
                             {
-                                container &= bm.Term(t => t.Field("effects.keyword").Value(val));
+                                effectContainer |= bm.Match(t => t.Field("effects").Query(val));
                             }
+                            
+                            container &= effectContainer;
                         }
                         
                         if (!String.IsNullOrWhiteSpace(types))

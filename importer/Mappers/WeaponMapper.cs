@@ -13,12 +13,12 @@ namespace importer.Mappers
             _type = type;
         }
         
-        public List<Weapon> MapMany(List<List<string>> data)
+        public List<Weapon> MapMany(List<List<string>> data, List<Model> _associations = null)
         {
             return (from item in data select Map(item)).ToList();
         }
 
-        public Weapon Map(List<string> data)
+        public Weapon Map(List<string> data, List<Model> _associations = null)
         {
             var parryAndPowers = Helpers.ConvertStringToArray(data.ElementAt(1));
             var locations = from location in Helpers.ConvertStringToArray(data.ElementAt(2))

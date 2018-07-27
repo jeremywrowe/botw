@@ -32,10 +32,11 @@ namespace importer.tests.Mappers
                 Hp = 2,
                 Type = "electro",
                 Time = 150,
-                Locations = new[] {"hyrule ridge", "gerudo highlands"}
+                Locations = new[] {"hyrule ridge", "gerudo highlands"},
+                Recipes = new Recipe[]{}
             };
             
-            Assert.Equal(model, _subject.Map(data));
+            Assert.Equal(model, _subject.Map(data, new List<Model>()));
         }
 
         [Fact]
@@ -67,7 +68,8 @@ namespace importer.tests.Mappers
                 Hp = 2,
                 Type = "electro",
                 Time = 150,
-                Locations = new[] {"hyrule ridge", "gerudo highlands"}
+                Locations = new[] {"hyrule ridge", "gerudo highlands"},
+                Recipes = new Recipe[] {}
             };
             
             var model2 = new Item
@@ -76,10 +78,11 @@ namespace importer.tests.Mappers
                 Hp = 6,
                 Type = "freeze",
                 Time = 50,
-                Locations = new[] {"a", "b", "c"}
+                Locations = new[] {"a", "b", "c"},
+                Recipes = new Recipe[] {}
             };
             
-            Assert.Equal(new List<Model> { model1, model2 }, _subject.MapMany(dataEntries));
+            Assert.Equal(new List<Model> { model1, model2 }, _subject.MapMany(dataEntries, new List<Model>()));
         }
     }
 }

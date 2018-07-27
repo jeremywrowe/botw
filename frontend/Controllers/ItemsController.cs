@@ -14,7 +14,16 @@ namespace frontend.Controllers
             return connection.Client.Search<Item>(search => search
                 .From(0)
                 .Size(1000)
-                .Sort(item => item.Ascending("name.keyword").Ascending("type.keyword").Ascending("locations.keyword"))
+                .Sort(item => item
+                    .Ascending("name.keyword")
+                    .Ascending("type.keyword")
+                    .Ascending("locations.keyword")
+                    .Script(sc => sc
+                        .Type("number")
+                        .Descending()
+                        .Script(script => script.Source("params._source?.recipes?.length ?: 0"))
+                    )
+                )
             ).Documents;
         }
     }

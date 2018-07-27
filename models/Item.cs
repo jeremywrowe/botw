@@ -6,6 +6,7 @@
         public string Type { get; set; }
         public int Time { get; set; }
         public string[] Locations { get; set; }
+        public Recipe[] Recipes { get; set; }
 
         public Item()
         {
@@ -14,6 +15,7 @@
             Type = "";
             Time = 0;
             Locations = new string[]{};
+            Recipes = new Recipe[]{};
         }
         
         public override string ToString()

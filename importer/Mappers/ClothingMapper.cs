@@ -14,13 +14,13 @@ namespace importer.Mappers
             _type = type;
         }
         
-        public List<Clothing> MapMany(List<List<string>> dataItems)
+        public List<Clothing> MapMany(List<List<string>> dataItems, List<Model> _associations = null)
         {
-            var mapping = from data in dataItems select Map(data);
+            var mapping = from data in dataItems select Map(data, _associations);
             return mapping.ToList();
         }
 
-        public Clothing Map(List<string> data)
+        public Clothing Map(List<string> data, List<Model> _associations = null)
         {
             var defenseAndRatings = Helpers.ConvertStringToArray(data.ElementAt(1));
             var locations = from location in Helpers.ConvertStringToArray(data.ElementAt(2))

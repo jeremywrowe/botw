@@ -15,7 +15,7 @@ namespace frontend.Controllers
             return connection.Client.Search<Clothing>(search => search
                 .From(0)
                 .Size(1000)
-                .Sort(item => item.Ascending("name.keyword"))
+                .Sort(item => item.Ascending("type.keyword").Ascending("name.keyword").Descending("defense"))
             ).Documents;
         }
     }
