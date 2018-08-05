@@ -5,8 +5,6 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    volumes:
-      - ./elasticsearch/data:/var/lib/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana:6.2.0
     ports:
