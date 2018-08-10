@@ -5,7 +5,7 @@ import Switch from './Switch';
 import { Recipes } from './Recipes';
 
 export class Items extends Component {
-  displayName = Items.name
+  displayName = Items.name;
 
   constructor(props) {
     super(props);

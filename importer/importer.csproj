@@ -74,7 +74,6 @@
     <Folder Include="data\html\recipes\" />
     <Folder Include="data\html\clothing\" />
     <Folder Include="data\html\weapons\" />
-    <Folder Include="Persistence" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\models\models.csproj" />

@@ -3,7 +3,7 @@ import { Label } from 'react-bootstrap';
 import Loader from './Loader';
 
 export class Weapons extends Component {
-  displayName = Weapons.name
+  displayName = Weapons.name;
 
   constructor(props) {
     super(props);

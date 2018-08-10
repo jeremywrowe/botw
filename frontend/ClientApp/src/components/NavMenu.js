@@ -3,7 +3,7 @@ import { Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 export class NavMenu extends Component {
-  displayName = NavMenu.name
+  displayName = NavMenu.name;
 
   render() {
     return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Glyphicon, Label } from 'react-bootstrap';
 import Loader from './Loader';
 import Switch from './Switch';
-import * as qs from 'query-string';
+import qs from 'qs';
 
 const EFFECTS = [
   'attack',
@@ -20,10 +20,10 @@ const EFFECTS = [
 const mapEffect = (effect) => {
   const found = EFFECTS.find(mappedEffect => effect.indexOf(mappedEffect) >= 0);
   return found ? found : null;
-}
+};
 
 export class Recipes extends Component {
-  displayName = Recipes.name
+  displayName = Recipes.name;
 
   constructor(props) {
     super(props);
